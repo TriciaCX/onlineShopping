@@ -10,8 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Hello world!
- *
+ *  onlineShopping
  */
 @SpringBootApplication(scanBasePackages = {"com.miaoshaproject"})
 @RestController
@@ -33,7 +32,7 @@ public class App
 
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
+        System.out.println( "程序开启!" );
         SpringApplication.run(App.class,args);
     }
 }
