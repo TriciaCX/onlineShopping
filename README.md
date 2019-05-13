@@ -9,8 +9,10 @@
 * 用户验证登录，对VIP用户展示不同界面以及商品价格等
 
 
+# 系统设计图
 
-详情参见流程图
+<img src="https://github.com/TriciaCX/onlineShopping/blob/master/resourceForIntroduction/%E7%94%B5%E5%95%86%E8%AE%BE%E8%AE%A1%E6%9E%B6%E6%9E%84%E5%9B%BE.png" width = 50% height = 50% div align=centre />
+
 
 # 涉及技术
 
