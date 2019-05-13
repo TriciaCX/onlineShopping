@@ -1,9 +1,5 @@
 package com.shoppingproject.controller;
 
-/**
- * Create by Tricia on 2019/5/11
- */
-
 import com.shoppingproject.controller.viewobject.UserVO;
 import com.shoppingproject.error.BussinesException;
 import com.shoppingproject.error.EmBusinessError;
@@ -11,6 +7,7 @@ import com.shoppingproject.response.CommonReturnType;
 import com.shoppingproject.service.UserService;
 import com.shoppingproject.service.model.UserModel;
 import org.apache.tomcat.util.codec.binary.Base64;
+import org.apache.tomcat.util.codec.binary.StringUtils;
 import org.apache.tomcat.util.security.MD5Encoder;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +21,9 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Random;
 
+/**
+ * Create by Tricia on 2019/5/11
+ */
 
 @Controller("user")
 @RequestMapping("/user")
@@ -35,6 +35,27 @@ public class UserController extends BaseController{
 
     @Autowired
     private HttpServletRequest httpServletRequest;
+
+    //用户登陆接口
+    @RequestMapping(value = "/login", method = {RequestMethod.POST},consumes = {CONTENT_TYPE_FORMED})
+    @ResponseBody
+    public CommonReturnType login(@RequestParam(name = "telephone") String telephone,
+                                  @RequestParam(name = "password")String password) throws BussinesException, UnsupportedEncodingException, NoSuchAlgorithmException {
+        //入参校验
+        if(org.apache.commons.lang3.StringUtils.isEmpty(telephone)
+                || org.apache.commons.lang3.StringUtils.isEmpty(password)){
+            throw new BussinesException(EmBusinessError.PARAMETER_VALIDATION_ERROR);
+        }
+        //用户登陆服务，用来校验用户登陆是否合法
+        UserModel userModel = userService.validateLogin(telephone,this.EncodeByMd5(password));
+
+        //将登陆凭证加入到用户登陆成功的session内
+        this.httpServletRequest.getSession().setAttribute("IS_LOGIN",true);
+        this.httpServletRequest.getSession().setAttribute("LOGIN_USER",userModel);
+
+        return CommonReturnType.create(null);
+
+    }
 
     //用户注册接口
     @RequestMapping(value = "/register", method = {RequestMethod.POST},consumes = {CONTENT_TYPE_FORMED})

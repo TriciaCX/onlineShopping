@@ -50,7 +50,7 @@
                 success:function (data) {
                     if(data.status == "success"){
                         alert("otp已发送，请查看");
-                        window.location.href = "D:///JavaProjects/eclipseWorkSpace/html/register.html";  //跳转到注册界面
+                        window.location.href = "register.html";  //跳转到注册界面
                     }else{
                         alert("otp发送失败，原因为"+data.data.errMsg);
                     }

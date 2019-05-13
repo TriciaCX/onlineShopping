@@ -1,8 +1,5 @@
 package com.shoppingproject.service.impl;
 
-/**
- * Create by Tricia on 2019/5/11
- */
 import com.shoppingproject.dao.UserDOMapper;
 import com.shoppingproject.dao.UserPasswordDOMapper;
 import com.shoppingproject.dataobject.UserDO;
@@ -11,12 +8,18 @@ import com.shoppingproject.error.BussinesException;
 import com.shoppingproject.error.EmBusinessError;
 import com.shoppingproject.service.UserService;
 import com.shoppingproject.service.model.UserModel;
+import com.shoppingproject.validator.ValidationResult;
+import com.shoppingproject.validator.ValidatorImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+/**
+ * Create by Tricia on 2019/5/11
+ */
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -26,6 +29,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserPasswordDOMapper userPasswordDOMapper;
+
+    @Autowired
+    private ValidatorImpl validator;
 
     @Override
     public UserModel getUserById(Integer id) {
@@ -46,11 +52,17 @@ public class UserServiceImpl implements UserService {
         if(userModel == null){
             throw new BussinesException(EmBusinessError.PARAMETER_VALIDATION_ERROR);
         }
-        if(StringUtils.isEmpty(userModel.getName())
-                ||userModel.getGender()==null
-                ||userModel.getAge()==null
-                ||StringUtils.isEmpty(userModel.getTelephone())){
-            throw new BussinesException(EmBusinessError.PARAMETER_VALIDATION_ERROR);
+
+//        if(StringUtils.isEmpty(userModel.getName())
+//                ||userModel.getGender()==null
+//                ||userModel.getAge()==null
+//                ||StringUtils.isEmpty(userModel.getTelephone())){
+//            throw new BussinesException(EmBusinessError.PARAMETER_VALIDATION_ERROR);
+//        }
+
+        ValidationResult result =  validator.validate(userModel);
+        if(result.isHasErrors()){
+            throw new BussinesException(EmBusinessError.PARAMETER_VALIDATION_ERROR,result.getErrMsg());
         }
 
         //实现model转到dataobject的方法
@@ -69,6 +81,22 @@ public class UserServiceImpl implements UserService {
         UserPasswordDO userPasswordDO = converPasswordFromModel(userModel);
         userPasswordDOMapper.insertSelective(userPasswordDO);
         return;
+    }
+
+    @Override
+    public UserModel validateLogin(String telephone, String encrptPassword) throws BussinesException {
+        //通过用户手机获取用户信息
+         UserDO userDO = userDOMapper.selectByTelephone(telephone);
+         if(userDO == null){
+             throw new BussinesException(EmBusinessError.UER_LOGIN_FAIL);
+         }
+         UserPasswordDO userPasswordDO = userPasswordDOMapper.selectByUserId(userDO.getId());
+         UserModel userModel = convertFromDataObject(userDO,userPasswordDO);
+        //比对用户信息内加密的密码是否和传输进来的密码相匹配
+       if(!StringUtils.equals(encrptPassword,userModel.getEncrptPassword())){
+           throw new BussinesException(EmBusinessError.UER_LOGIN_FAIL);
+       }
+       return userModel;
     }
 
     private  UserPasswordDO converPasswordFromModel(UserModel userModel){

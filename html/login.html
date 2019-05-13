@@ -69,7 +69,8 @@
                 xhrFields:{withCredentials: true},
                 success:function (data) {
                     if(data.status == "success"){
-                        alert("欢迎，登陆成功");
+                        alert("登陆成功,欢迎来到Tricia的商城");
+                        window.location.href = "listitem.html";
                     }else{
                         alert("登陆失败，原因为"+data.data.errMsg);
                     }
