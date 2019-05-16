@@ -25,11 +25,13 @@
 * 秒杀活动
 <img src="https://github.com/TriciaCX/onlineShopping/blob/master/resourceForIntroduction/%E7%A7%92%E6%9D%80%E6%B4%BB%E5%8A%A8.bmp" width = 60% height = 60% div align=centre />
 
-## 涉及技术
+## 4 涉及技术
 
 * 基于IDEA+Maven搭建SpringBoot 开发环境
 * MyBatis操作数据库
 * 利用阿里巴巴Druid数据池
 * 基于MySQL数据库
 
+## 5 改进方向
 
+对秒杀活动进行改进，增加高并发设计
