@@ -11,6 +11,16 @@
 
 <img src="https://github.com/TriciaCX/onlineShopping/blob/master/resourceForIntroduction/%E7%94%B5%E5%95%86%E8%AE%BE%E8%AE%A1%E6%9E%B6%E6%9E%84%E5%9B%BE.png" width = 80% height = 80% div align=centre />
 
+## 3 结果浏览
+
+* 用户注册
+<img src="https://github.com/TriciaCX/onlineShopping/blob/master/resourceForIntroduction/%E7%94%A8%E6%88%B7%E6%B3%A8%E5%86%8C.bmp" width = 60% height = 60% div align=centre />
+
+* 商品浏览
+<img src="https://github.com/TriciaCX/onlineShopping/blob/master/resourceForIntroduction/%E5%95%86%E5%93%81%E6%B5%8F%E8%A7%88.bmp" width = 60% height = 60% div align=centre />
+
+* 秒杀活动
+<img src="https://github.com/TriciaCX/onlineShopping/blob/master/resourceForIntroduction/%E7%A7%92%E6%9D%80%E6%B4%BB%E5%8A%A8.bmp" width = 60% height = 60% div align=centre />
 
 ## 涉及技术
 
