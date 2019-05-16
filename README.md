@@ -16,8 +16,11 @@
 * 用户注册
 <img src="https://github.com/TriciaCX/onlineShopping/blob/master/resourceForIntroduction/%E7%94%A8%E6%88%B7%E6%B3%A8%E5%86%8C.bmp" width = 60% height = 60% div align=centre />
 
+* 创建商品
+<img src="https://github.com/TriciaCX/onlineShopping/blob/master/resourceForIntroduction/%E5%95%86%E5%93%81%E5%88%9B%E5%BB%BA.bmp" width = 60% height = 60% div align=centre />
+
 * 商品浏览
-<img src="https://github.com/TriciaCX/onlineShopping/blob/master/resourceForIntroduction/%E5%95%86%E5%93%81%E6%B5%8F%E8%A7%88.bmp" width = 60% height = 60% div align=centre />
+<img src="https://github.com/TriciaCX/onlineShopping/blob/master/resourceForIntroduction/%E5%95%86%E5%93%81%E6%B5%8F%E8%A7%88.bmp" width = 100% height = 100% div align=centre />
 
 * 秒杀活动
 <img src="https://github.com/TriciaCX/onlineShopping/blob/master/resourceForIntroduction/%E7%A7%92%E6%9D%80%E6%B4%BB%E5%8A%A8.bmp" width = 60% height = 60% div align=centre />
