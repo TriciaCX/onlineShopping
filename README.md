@@ -1,3 +1,6 @@
+![](https://img.shields.io/badge/language-Java-orange.svg)
+[![](https://img.shields.io/badge/CSDN-@冰美式-red.svg)](https://me.csdn.net/weixin_43277507)
+
 # 功能简介
 
 ## 1 基础功能
