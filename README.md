@@ -1,3 +1,6 @@
+![](https://img.shields.io/badge/language-Java-orange.svg)
+[![](https://img.shields.io/badge/CSDN-@冰美式-red.svg)](https://me.csdn.net/weixin_43277507)
+
 # 功能简介
 
 ## 1 基础功能
@@ -11,12 +14,27 @@
 
 <img src="https://github.com/TriciaCX/onlineShopping/blob/master/resourceForIntroduction/%E7%94%B5%E5%95%86%E8%AE%BE%E8%AE%A1%E6%9E%B6%E6%9E%84%E5%9B%BE.png" width = 80% height = 80% div align=centre />
 
+## 3 结果浏览
 
-## 涉及技术
+* 用户注册
+<img src="https://github.com/TriciaCX/onlineShopping/blob/master/resourceForIntroduction/%E7%94%A8%E6%88%B7%E6%B3%A8%E5%86%8C.bmp" width = 60% height = 60% div align=centre />
+
+* 创建商品
+<img src="https://github.com/TriciaCX/onlineShopping/blob/master/resourceForIntroduction/%E5%95%86%E5%93%81%E5%88%9B%E5%BB%BA.bmp" width = 60% height = 60% div align=centre />
+
+* 商品浏览
+<img src="https://github.com/TriciaCX/onlineShopping/blob/master/resourceForIntroduction/%E5%95%86%E5%93%81%E6%B5%8F%E8%A7%88.bmp" width = 100% height = 100% div align=centre />
+
+* 秒杀活动
+<img src="https://github.com/TriciaCX/onlineShopping/blob/master/resourceForIntroduction/%E7%A7%92%E6%9D%80%E6%B4%BB%E5%8A%A8.bmp" width = 60% height = 60% div align=centre />
+
+## 4 涉及技术
 
 * 基于IDEA+Maven搭建SpringBoot 开发环境
 * MyBatis操作数据库
 * 利用阿里巴巴Druid数据池
 * 基于MySQL数据库
 
+## 5 改进方向
 
+对秒杀活动进行改进，增加高并发设计
