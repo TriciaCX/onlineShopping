@@ -31,7 +31,6 @@ public class ItemServiceImpl implements ItemService {
     @Autowired
     private ValidatorImpl validator;
 
-
     @Autowired
     private ItemDOMapper itemDOMapper;
 
@@ -41,6 +40,11 @@ public class ItemServiceImpl implements ItemService {
     @Autowired
     private PromoService promoService;
 
+    /**
+     * 将itemModel转化为itemDO
+     * @param itemModel
+     * @return
+     */
     private ItemDO  convertItemDOFromItemModel(ItemModel itemModel){
         if(itemModel == null){
             return null;
@@ -53,6 +57,11 @@ public class ItemServiceImpl implements ItemService {
         return itemDO;
     }
 
+    /**
+     * 将取到的itemModel转为DO
+     * @param itemModel
+     * @return
+     */
     private ItemStockDO convertItemStockDOFromItemModel(ItemModel itemModel){
         if(itemModel == null){
             return null;
@@ -65,6 +74,12 @@ public class ItemServiceImpl implements ItemService {
     }
 
 
+    /**
+     * 创建商品，涉及到数据库的更新
+     * @param itemModel
+     * @return
+     * @throws BussinesException
+     */
     @Override
     @Transactional
     public ItemModel createItem(ItemModel itemModel) throws BussinesException {
@@ -74,7 +89,7 @@ public class ItemServiceImpl implements ItemService {
             throw new BussinesException(EmBusinessError.PARAMETER_VALIDATION_ERROR,result.getErrMsg());
         }
 
-        //转化itemModel->dataobject
+        //转化itemModel->dataObject
         ItemDO itemDO = this.convertItemDOFromItemModel(itemModel);
 
         //写入数据库
@@ -87,6 +102,10 @@ public class ItemServiceImpl implements ItemService {
         return this.getItemById(itemModel.getId());
     }
 
+    /**
+     * 商品列表显示
+     * @return
+     */
     @Override
     public List<ItemModel> listItem() {
        List<ItemDO> itemDOList = itemDOMapper.listItem();
@@ -98,6 +117,12 @@ public class ItemServiceImpl implements ItemService {
        return itemModelList;
     }
 
+    /**
+     *  取商品操作
+     *  根据商品的id从数据库获得DO，然后由DO转成model
+     * @param id
+     * @return
+     */
     @Override
     public ItemModel getItemById(Integer id) {
         ItemDO itemDO = itemDOMapper.selectByPrimaryKey(id);
@@ -107,11 +132,11 @@ public class ItemServiceImpl implements ItemService {
         //操作获得库存数量
         ItemStockDO itemStockDO =  itemStockDOMapper.selectByItemId(itemDO.getId());
 
-        //将dataobject转化成model
+        //将dataObject转化成model
         ItemModel itemModel = convertModelFromDataObject(itemDO,itemStockDO);
 
         //获取活动商品信息
-        PromoModel promoModel= promoService.getPromoByItemId(itemModel.getId());
+        PromoModel promoModel = promoService.getPromoByItemId(itemModel.getId());
         //存在还没结束的秒杀活动（未开始+正在进行）
         if(promoModel != null && promoModel.getStatus().intValue()!=3){
             itemModel.setPromoModel(promoModel);
@@ -119,6 +144,13 @@ public class ItemServiceImpl implements ItemService {
 
         return itemModel;
     }
+
+    /**
+     * 把拿到的dataObject转化为itemModel
+     * @param itemDO
+     * @param itemStockDO
+     * @return
+     */
     private ItemModel convertModelFromDataObject(ItemDO itemDO, ItemStockDO itemStockDO){
         ItemModel itemModel = new ItemModel();
         BeanUtils.copyProperties(itemDO,itemModel);
@@ -127,6 +159,14 @@ public class ItemServiceImpl implements ItemService {
         return itemModel;
     }
 
+    /**
+     * 减库存操作，直接用数据库的命令就行
+     * 减库存会受到库存的制约，返回true表示减库存成功，false表示减库存失败
+     * @param itemId
+     * @param amount
+     * @return
+     * @throws BussinesException
+     */
     @Override
     @Transactional
     public boolean decreaseStock(Integer itemId, Integer amount) throws BussinesException {
@@ -141,6 +181,12 @@ public class ItemServiceImpl implements ItemService {
         }
     }
 
+    /**
+     * 加库存操作，理论上，加的操作是不会失败的
+     * @param itemId
+     * @param amount
+     * @throws BussinesException
+     */
     @Override
     @Transactional
     public void increaseSales(Integer itemId, Integer amount) throws BussinesException {

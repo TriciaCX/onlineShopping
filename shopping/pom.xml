@@ -56,6 +56,18 @@
     </dependency>
 
     <dependency>
+      <groupId>org.hibernate.validator</groupId>
+      <artifactId>hibernate-validator</artifactId>
+      <version>6.0.16.Final</version>
+    </dependency>
+
+    <dependency>
+      <groupId>joda-time</groupId>
+      <artifactId>joda-time</artifactId>
+      <version>2.10.2</version>
+    </dependency>
+
+    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.11</version>
@@ -135,7 +147,7 @@
             <!--允许移动生成的文件-->
             <verbose>true</verbose>
             <!--允许自动覆盖文件-->
-            <overwrite>true</overwrite>
+            <overwrite>false</overwrite>
             <configurationFile>
               src/main/resources/mybatis-generator.xml
             </configurationFile>
