@@ -1,7 +1,7 @@
 ![](https://img.shields.io/badge/language-Java-orange.svg)
 [![](https://img.shields.io/badge/CSDN-@冰美式-red.svg)](https://me.csdn.net/weixin_43277507)
 
-# 功能简介
+# 功能简介（基于本地主机）
 
 ## 1 基础功能
 * 用户获取短信验证码注册，利用账号名称和账号密码验证登录
@@ -31,10 +31,18 @@
 ## 4 涉及技术
 
 * 基于IDEA+Maven搭建SpringBoot 开发环境
+
 * MyBatis操作数据库
+
 * 利用阿里巴巴Druid数据池
+
 * 基于MySQL数据库
 
-## 5 改进方向
+  
 
-对秒杀活动进行改进，增加高并发设计
+# 功能简介（基于云端部署）
+
+## 阿里云
+
+
+
