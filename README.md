@@ -1,7 +1,7 @@
 ![](https://img.shields.io/badge/language-Java-orange.svg)
 [![](https://img.shields.io/badge/CSDN-@冰美式-red.svg)](https://me.csdn.net/weixin_43277507)
 
-# 功能简介（基于本地主机）
+#  本地主机
 
 ## 1 基础功能
 * 用户获取短信验证码注册，利用账号名称和账号密码验证登录
@@ -27,20 +27,11 @@
 
 * 秒杀活动
 <img src="https://github.com/TriciaCX/onlineShopping/blob/master/resourceForIntroduction/%E7%A7%92%E6%9D%80%E6%B4%BB%E5%8A%A8.bmp" width = 60% height = 60% div align=centre />
-
-## 4 涉及技术
-
-* 基于IDEA+Maven搭建SpringBoot开发环境
-
-* MyBatis操作数据库
-
-* 利用阿里巴巴Druid数据池
-
-* 基于MySQL数据库
-
   
 
-# 功能简介（基于云端部署）
+# 二、云端部署
+
+<img src ="https://github.com/TriciaCX/resources/blob/master/%E9%98%BF%E9%87%8C%E4%BA%91.jpg" width = 30% height = 30% div align=centre />
 
 ## 分布式扩展
 
