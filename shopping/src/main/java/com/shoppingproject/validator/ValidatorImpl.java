@@ -21,7 +21,7 @@ public class ValidatorImpl implements InitializingBean {
     public ValidationResult validate(Object bean){
         final ValidationResult result = new ValidationResult();
         Set<ConstraintViolation<Object>> constraintViolationSet = validator.validate(bean);
-        if(constraintViolationSet.size()>0){
+        if(constraintViolationSet.size()>0){   //set大于0，表示存在不合法的输入
             result.setHasErrors(true);
             constraintViolationSet.forEach(constraintViolation->{
                 String errMsg = constraintViolation.getMessage();
