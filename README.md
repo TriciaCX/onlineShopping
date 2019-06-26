@@ -34,6 +34,9 @@
 * 秒杀活动
 <img src="https://github.com/TriciaCX/onlineShopping/blob/master/resourceForIntroduction/%E7%A7%92%E6%9D%80%E6%B4%BB%E5%8A%A8.bmp" width = 60% height = 60% div align=centre />
   
+* 下单成功
+<img src="https://github.com/TriciaCX/onlineShopping/blob/master/resourceForIntroduction/%E4%B8%8B%E5%8D%95.png" width = 60% height = 60% div align=centre />
+
 
 # 二、云端部署
 
