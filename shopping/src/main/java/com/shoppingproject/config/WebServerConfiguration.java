@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
  * Create by Tricia on 2019/6/3
  */
 
-//当Spring容器中没有TomcatEmbeddedServletContainerFactory这个bean时，会把这个bean加载进来
+//当Spring容器中没有TomcatEmbeddedServletContainerFactory这个bean时，会加载这个bean
 @Component
 public class WebServerConfiguration implements WebServerFactoryCustomizer<ConfigurableWebServerFactory> {
     @Override

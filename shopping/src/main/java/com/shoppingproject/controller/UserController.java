@@ -55,17 +55,19 @@ public class UserController extends BaseController{
         //用户登陆服务，用来校验用户登陆是否合法
         UserModel userModel = userService.validateLogin(telephone,this.EncodeByMd5(password));
 
+        //6.26更新
         //将登陆凭证加入到用户登陆成功的session内
 
         //修改成若用户登录验证成功后将对应的登录信息和登录凭证一起存入redis中
 
         //生成登录凭证token，UUID（保证全局唯一性）
         String uuidToken =  UUID.randomUUID().toString();
-        uuidToken = uuidToken.replace("-","");
+        uuidToken = uuidToken.replace("-",""); //把原来的uuid里面的-去掉
         //建立token和用户登录态之间的联系
         redisTemplate.opsForValue().set(uuidToken,userModel);
         redisTemplate.expire(uuidToken,1, TimeUnit.HOURS);  //超时时间设置为1个小时
 
+        //原来的是cookie的，有的应用可能不支持，改用基于token的
 //        this.httpServletRequest.getSession().setAttribute("IS_LOGIN",true);
 //        this.httpServletRequest.getSession().setAttribute("LOGIN_USER",userModel);
 

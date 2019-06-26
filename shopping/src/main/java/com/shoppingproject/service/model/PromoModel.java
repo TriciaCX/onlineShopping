@@ -2,13 +2,14 @@ package com.shoppingproject.service.model;
 
 import org.joda.time.DateTime;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
  * Create by Tricia on 2019/5/11
  */
 
-public class PromoModel {
+public class PromoModel implements Serializable {  //0626更新，实现序列化
 
     private Integer id;
 

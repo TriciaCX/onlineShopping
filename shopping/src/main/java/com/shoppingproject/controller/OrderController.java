@@ -26,7 +26,7 @@ public class OrderController extends BaseController {
     private HttpServletRequest httpServletRequest;
 
     @Autowired
-    private RedisTemplate redisTemplate;
+    private RedisTemplate redisTemplate; //6.26更新，token
 
     //封装下单请求
     @RequestMapping(value = "/createorder", method = {RequestMethod.POST},consumes = {CONTENT_TYPE_FORMED})

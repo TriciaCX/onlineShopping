@@ -3,12 +3,13 @@ package com.shoppingproject.service.model;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
  * Create by Tricia on 2019/5/11
  */
-public class ItemModel {
+public class ItemModel implements Serializable {
     private  Integer id;
 
     //商品名称
@@ -19,6 +20,7 @@ public class ItemModel {
     @NotNull(message = "商品价格不能为空")
     @Min(value = 0,message = "商品价格必须大于0")
     private BigDecimal price;
+    //6.23  用bigdecimal的price而不是double？double类型的数据直接传到前端可能会有精度问题
 
     //商品库存
     @NotNull(message = "必须填写库存")

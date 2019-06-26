@@ -10,7 +10,7 @@ import java.io.Serializable;
  * Create by Tricia on 2019/5/11
  */
 
-public class UserModel implements Serializable {
+public class UserModel implements Serializable {  //6.26更新 序列化是为了redis
     private Integer id;
     @NotBlank(message = "用户名不能为空")
     private String name;
