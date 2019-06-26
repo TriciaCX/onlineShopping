@@ -12,7 +12,13 @@
 
 ## 2 系统设计图
 
+* 系统设计框图
+
 <img src="https://github.com/TriciaCX/onlineShopping/blob/master/resourceForIntroduction/%E7%94%B5%E5%95%86%E8%AE%BE%E8%AE%A1%E6%9E%B6%E6%9E%84%E5%9B%BE.png" width = 80% height = 80% div align=centre />
+
+* 数据库设计图
+
+<img src="https://github.com/TriciaCX/onlineShopping/blob/master/resourceForIntroduction/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1.jpg" width = 80% height = 80% div align=centre />
 
 ## 3 结果浏览
 
