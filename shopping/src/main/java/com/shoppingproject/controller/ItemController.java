@@ -3,6 +3,7 @@ package com.shoppingproject.controller;
 import com.shoppingproject.controller.viewobject.ItemVO;
 import com.shoppingproject.error.BussinesException;
 import com.shoppingproject.response.CommonReturnType;
+import com.shoppingproject.service.CacheService;
 import com.shoppingproject.service.ItemService;
 import com.shoppingproject.service.model.ItemModel;
 import org.joda.time.format.DateTimeFormat;
@@ -27,6 +28,9 @@ public class ItemController extends BaseController{
 
     @Autowired
     private RedisTemplate redisTemplate;
+
+    @Autowired
+    private CacheService cacheService;
 
     //创建商品的controller
     @RequestMapping(value = "/create",method = {RequestMethod.POST},consumes = {CONTENT_TYPE_FORMED})
@@ -60,16 +64,24 @@ public class ItemController extends BaseController{
     @RequestMapping(value = "/get",method = {RequestMethod.GET})
     @ResponseBody
     public CommonReturnType getItem(@RequestParam(name = "id")Integer id){
+        ItemModel itemModel =null;
+        //第一步：先取服务器本地缓存（应用服务器A和应用服务器B）
+        itemModel =(ItemModel)cacheService.getFromCommonCache("item_"+id);
 
-        //根据商品的id到redis内获取
-        ItemModel itemModel = (ItemModel) redisTemplate.opsForValue().get("item_"+id);
+        //第二步：redis缓存根据商品的id到redis内获取
+        if(itemModel==null) {
+            itemModel = (ItemModel) redisTemplate.opsForValue().get("item_" + id);
 
-        //若redis内不存在对应的itemModel，则访问下游service
-        if(itemModel==null){
-            itemModel = itemService.getItemById(id);
-            //设置itemModel到redis内
-            redisTemplate.opsForValue().set("item_"+id,itemModel); //将未被命中的请求缓存到redis
-            redisTemplate.expire("item_"+id,10, TimeUnit.MINUTES); //设置redis缓存的有效时间是10分钟
+           //第三步：若redis内不存在对应的itemModel，则访问下游service
+            if(itemModel==null) {
+                itemModel = itemService.getItemById(id);
+                //设置itemModel到redis内
+                redisTemplate.opsForValue().set("item_" + id, itemModel); //将未被命中的请求缓存到redis
+                redisTemplate.expire("item_" + id, 10, TimeUnit.MINUTES); //设置redis缓存的有效时间是10分钟
+
+            }
+            //设置itemModel到本地缓存
+            cacheService.setCommonCache("item_"+id,itemModel);
         }
 
         ItemVO itemVO = convertVOFromModel(itemModel);
