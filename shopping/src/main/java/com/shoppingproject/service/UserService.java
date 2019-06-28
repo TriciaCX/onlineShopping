@@ -10,6 +10,10 @@ import com.shoppingproject.service.model.UserModel;
 public interface UserService {
     //通过用户ID获取用户对象的方法
     UserModel getUserById(Integer id);
+
+    //6.27更新：通过缓存获取用户对象
+    UserModel getUserByIdInCache(Integer id);
+
     void register(UserModel userModel) throws BussinesException;
     /*
     telephone： 用户注册手机

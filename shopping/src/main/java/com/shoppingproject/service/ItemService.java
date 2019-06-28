@@ -18,6 +18,9 @@ public interface ItemService {
     //商品详情浏览
     ItemModel getItemById(Integer id);
 
+    //验证itemModel及promo Model是否有效
+    ItemModel getItemByIdInCache(Integer id);
+
     //库存扣减
     boolean decreaseStock(Integer itemId, Integer amount)throws BussinesException;
 

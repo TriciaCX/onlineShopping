@@ -6,19 +6,26 @@ import com.shoppingproject.dataobject.ItemDO;
 import com.shoppingproject.dataobject.ItemStockDO;
 import com.shoppingproject.error.BussinesException;
 import com.shoppingproject.error.EmBusinessError;
+import com.shoppingproject.mq.MqProducer;
 import com.shoppingproject.service.ItemService;
 import com.shoppingproject.service.PromoService;
 import com.shoppingproject.service.model.ItemModel;
 import com.shoppingproject.service.model.PromoModel;
 import com.shoppingproject.validator.ValidationResult;
 import com.shoppingproject.validator.ValidatorImpl;
+import org.apache.rocketmq.client.exception.MQBrokerException;
+import org.apache.rocketmq.client.exception.MQClientException;
+import org.apache.rocketmq.client.producer.SendResult;
+import org.apache.rocketmq.remoting.exception.RemotingException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -39,6 +46,12 @@ public class ItemServiceImpl implements ItemService {
 
     @Autowired
     private PromoService promoService;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
+
+    @Autowired
+    private MqProducer mqProducer;
 
     /**
      * 将itemModel转化为itemDO
@@ -146,6 +159,23 @@ public class ItemServiceImpl implements ItemService {
     }
 
     /**
+     * 0627更新：增加了redis缓存的存取
+     * @param id
+     * @return
+     */
+    @Override
+    public ItemModel getItemByIdInCache(Integer id) {
+        ItemModel itemModel = (ItemModel) redisTemplate.opsForValue().get("item_validate_"+id);
+        if(itemModel==null){
+            itemModel = this.getItemById(id);
+            redisTemplate.opsForValue().set("item_validate_"+id,itemModel);
+            //缓存要记得设置有效期！！！
+            redisTemplate.expire("item_validate_"+id,10, TimeUnit.MINUTES);
+        }
+        return itemModel;
+    }
+
+    /**
      * 把拿到的dataObject转化为itemModel
      * @param itemDO
      * @param itemStockDO
@@ -169,17 +199,34 @@ public class ItemServiceImpl implements ItemService {
      */
     @Override
     @Transactional
-    public boolean decreaseStock(Integer itemId, Integer amount) throws BussinesException {
-        int affectedRow = itemStockDOMapper.decreaseStock(itemId,amount);  //该操作影响的条目数，如果没有减成功，affectRows=0
-        if(affectedRow>0){
-            //更新库存成功
+    public boolean decreaseStock(Integer itemId, Integer amount) {
+
+        /*0627更新 由于利用redis缓存数据，我们要在redis里把数据减掉，不然页面销量不会变！！*/
+        //int affectedRow = itemStockDOMapper.decreaseStock(itemId,amount);  //该操作影响的条目数，如果没有减成功，affectRows=0
+        long result = redisTemplate.opsForValue().increment("promo_item_stock_" + itemId, amount.intValue() * (-1));
+//        if(affectedRow>0){
+//            //更新库存成功
+//            return true;
+//        }else {
+//            //更新库存失败
+//            //throw new BussinesException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"更新库存失败");
+//            return false;
+//        }
+        if (result >= 0) {
+            //东西还有，库存更新成功
+            boolean mqResult = mqProducer.asyncReduceStock(itemId, amount);
+            if (!mqResult) {
+                redisTemplate.opsForValue().increment("promo_item_stock_" + itemId, amount.intValue());
+                return false;
+            }
             return true;
-        }else {
-            //更新库存失败
-            //throw new BussinesException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"更新库存失败");
+        } else {
+            //库存没了，库存更新失败
+            redisTemplate.opsForValue().increment("promo_item_stock_" + itemId, amount.intValue());
             return false;
         }
     }
+
 
     /**
      * 加库存操作，理论上，加的操作是不会失败的

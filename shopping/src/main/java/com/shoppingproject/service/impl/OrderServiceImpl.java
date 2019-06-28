@@ -6,6 +6,7 @@ import com.shoppingproject.dataobject.OrderDO;
 import com.shoppingproject.dataobject.SequenceDO;
 import com.shoppingproject.error.BussinesException;
 import com.shoppingproject.error.EmBusinessError;
+import com.shoppingproject.mq.MqProducer;
 import com.shoppingproject.service.ItemService;
 import com.shoppingproject.service.OrderService;
 import com.shoppingproject.service.UserService;
@@ -41,23 +42,34 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private SequenceDOMapper sequenceDOMapper;
 
+    @Autowired
+    private MqProducer mqProducer;
 
     @Override
     @Transactional
     public OrderModel createOrder(Integer userId, Integer itemId, Integer promoId, Integer amount) throws BussinesException {
         System.out.println("开始建立订单了");
         //1 校验下单状态：下单的商品是否存在；下单用户是否合法；购买数量是否正确。
-        ItemModel itemModel = itemService.getItemById(itemId);
+        // ItemModel itemModel = itemService.getItemById(itemId);
+        /* 0627更新，改为利用redis取itemModel*/
+       ItemModel itemModel = itemService.getItemByIdInCache(itemId);
+
         if(itemModel == null){
             throw new BussinesException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"商品信息不存在");
         }
-        UserModel userModel = userService.getUserById(userId);
+
+        /* 0627更新  增加redis缓存的用户模型读取*/
+        //UserModel userModel = userService.getUserById(userId);
+        UserModel userModel = userService.getUserByIdInCache(userId);
+
         if(userModel == null){
             throw new BussinesException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"用户信息不存在");
         }
+
         if(amount<=0||amount>99){
             throw new BussinesException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"购买数量不合理");
         }
+
         //2019/5/13新增
         //校验活动信息
         if(promoId!=null){
