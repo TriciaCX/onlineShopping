@@ -41,7 +41,7 @@ CREATE TABLE `item` (
 
 LOCK TABLES `item` WRITE;
 /*!40000 ALTER TABLE `item` DISABLE KEYS */;
-INSERT INTO `item` VALUES (1,'ipad Pro',5555,'2018版',31,'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1557636754736&di=82da719d7ae60fcf893bb6cff435ef3a&imgtype=0&src=http%3A%2F%2Fimg3.myhsw.cn%2F2019-01-07%2F0by68k83.png'),(2,'iPad Air',3333,'2019新款',12,'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1557636820612&di=67a1bb55b02f2c332f40f6c46046ec55&imgtype=0&src=http%3A%2F%2Fimg.pconline.com.cn%2Fimages%2Fupload%2Fupc%2Ftx%2Fpc_best%2F1905%2F06%2Fc135%2F146298435_1557127639133.jpg'),(3,'ipad mini',2000,'2019新款',8,'http://img14.360buyimg.com/n1/s450x450_jfs/t1/12013/8/11611/121395/5c906608E5b10fed7/c8b5b02d7c8a9529.jpg'),(4,'华为P30',4000,'2019新款',72,'https://image.suning.cn/uimg/b2c/newcatentries/0070830053-000000011065716867_1.jpg_800w_800h_4e'),(5,'华为P30PRO',6666,'2019年新品',22,'https://imgservice.suning.cn/uimg1/b2c/image/AenE3GK9Ljc-mr6o-zflcg.jpg_60w_60h_4e');
+INSERT INTO `item` VALUES (1,'ipad Pro',5555,'2018版',31,'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1557636754736&di=82da719d7ae60fcf893bb6cff435ef3a&imgtype=0&src=http%3A%2F%2Fimg3.myhsw.cn%2F2019-01-07%2F0by68k83.png'),(2,'iPad Air',3333,'2019新款',12,'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1557636820612&di=67a1bb55b02f2c332f40f6c46046ec55&imgtype=0&src=http%3A%2F%2Fimg.pconline.com.cn%2Fimages%2Fupload%2Fupc%2Ftx%2Fpc_best%2F1905%2F06%2Fc135%2F146298435_1557127639133.jpg'),(3,'ipad mini',2000,'2019新款',8,'http://img14.360buyimg.com/n1/s450x450_jfs/t1/12013/8/11611/121395/5c906608E5b10fed7/c8b5b02d7c8a9529.jpg'),(4,'华为P30',4000,'2019新款',74,'https://image.suning.cn/uimg/b2c/newcatentries/0070830053-000000011065716867_1.jpg_800w_800h_4e'),(5,'华为P30PRO',6666,'2019年新品',22,'https://imgservice.suning.cn/uimg1/b2c/image/AenE3GK9Ljc-mr6o-zflcg.jpg_60w_60h_4e');
 /*!40000 ALTER TABLE `item` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -56,7 +56,8 @@ CREATE TABLE `item_stock` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `stock` int(11) NOT NULL DEFAULT '0',
   `item_id` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `item_id_index` (`item_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -66,7 +67,7 @@ CREATE TABLE `item_stock` (
 
 LOCK TABLES `item_stock` WRITE;
 /*!40000 ALTER TABLE `item_stock` DISABLE KEYS */;
-INSERT INTO `item_stock` VALUES (1,99,1),(2,150,2),(3,120,3),(4,98,4),(6,66,5);
+INSERT INTO `item_stock` VALUES (1,99,1),(2,150,2),(3,120,3),(4,96,4),(6,66,5);
 /*!40000 ALTER TABLE `item_stock` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -95,7 +96,7 @@ CREATE TABLE `order_info` (
 
 LOCK TABLES `order_info` WRITE;
 /*!40000 ALTER TABLE `order_info` DISABLE KEYS */;
-INSERT INTO `order_info` VALUES ('2019051300000000',2,1,5555,1,5555,0),('2019051300000100',2,4,3988,1,3988,1),('2019051300000200',2,4,3988,1,3988,1);
+INSERT INTO `order_info` VALUES ('2019051300000000',2,1,5555,1,5555,0),('2019051300000100',2,4,3988,1,3988,1),('2019051300000200',2,4,3988,1,3988,1),('2019060500000300',2,4,4000,1,4000,0),('2019060600000400',2,4,4000,1,4000,0);
 /*!40000 ALTER TABLE `order_info` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -115,7 +116,7 @@ CREATE TABLE `promo` (
   `end_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `promo_id` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -124,7 +125,7 @@ CREATE TABLE `promo` (
 
 LOCK TABLES `promo` WRITE;
 /*!40000 ALTER TABLE `promo` DISABLE KEYS */;
-INSERT INTO `promo` VALUES (1,'华为P30限量抢购','2019-05-13 11:55:00',4,3988,'2019-05-20 00:00:00',0);
+INSERT INTO `promo` VALUES (1,'华为P30限量抢购','2019-05-13 11:55:00',4,3988,'2019-05-20 00:00:00',0),(2,'ipad Air 双十一促销','2019-11-11 00:00:00',2,2000,'2019-11-12 00:00:00',1);
 /*!40000 ALTER TABLE `promo` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -149,7 +150,7 @@ CREATE TABLE `sequence_info` (
 
 LOCK TABLES `sequence_info` WRITE;
 /*!40000 ALTER TABLE `sequence_info` DISABLE KEYS */;
-INSERT INTO `sequence_info` VALUES ('order_info',3,1);
+INSERT INTO `sequence_info` VALUES ('order_info',5,1);
 /*!40000 ALTER TABLE `sequence_info` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -207,6 +208,14 @@ LOCK TABLES `user_password` WRITE;
 INSERT INTO `user_password` VALUES (1,'123456',1),(2,'yB5yjZ1ML2NvBn+JzBSGLA==',2),(5,'7MvIfktc4v4oMI/Z8qe68w==',8);
 /*!40000 ALTER TABLE `user_password` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Dumping events for database 'onlineshopping'
+--
+
+--
+-- Dumping routines for database 'onlineshopping'
+--
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -217,4 +226,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-06-03  9:45:37
+-- Dump completed on 2019-06-28 15:24:59
